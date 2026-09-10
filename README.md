@@ -56,4 +56,4 @@ evidencias/
 
 Las restricciones y los tres escenarios obligatorios se ejecutaron realmente en PostgreSQL 18.6 el 10/09/2026. Las salidas resumidas están en `informe_concurrencia.md`, las DUIA y `evidencias/`.
 
-El escenario de interbloqueo permanece opcional y no se declara como ejecutado ni versionado hasta contar con su evidencia real.
+El escenario de interbloqueo es opcional según la consigna y no forma parte de esta entrega.
