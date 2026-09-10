@@ -4,7 +4,7 @@
 
 | Campo | Contenido |
 |---|---|
-| Herramienta | Codex (ChatGPT) para la propuesta y PostgreSQL 18.6 para la verificación. OpenCode no estaba instalado durante esta ejecución. |
+| Herramienta | Codex (ChatGPT) cumplió el rol de agente de código para la propuesta; PostgreSQL 18.6 verificó el resultado. Por elección del alumno se usó Codex en lugar del binario OpenCode, conservando el flujo Plan → diff → ejecución. |
 | Spec o prompt utilizado | Ver prompt registrado debajo. |
 | Qué generó | Restricciones declarativas sobre `pedido_detalle`, datos mínimos reproducibles y casos de prueba. |
 | Qué se aceptó | Los dos `CHECK` y el `UNIQUE (pedido_id, producto_id)`. |

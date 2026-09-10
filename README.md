@@ -48,6 +48,10 @@ evidencias/
 8. Registrar únicamente resultados reales.
 9. Revisar `git diff` antes de cada commit.
 
+## Contexto de IA
+
+`AGENTS.md` y `.kiro/steering/food-store.md` versionan las convenciones del esquema. Para este TP se utilizó Codex como agente de código, siguiendo el flujo de planificar, revisar el diff y verificar en PostgreSQL antes de confirmar cambios.
+
 ## Estado
 
 Las restricciones y los tres escenarios obligatorios se ejecutaron realmente en PostgreSQL 18.6 el 10/09/2026. Las salidas resumidas están en `informe_concurrencia.md`, las DUIA y `evidencias/`.
