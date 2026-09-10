@@ -2,6 +2,12 @@
 *.dump
 *.backup
 
+# Exportaciones y copias locales; la entrega revisable se versiona en Markdown, SQL y evidencias.
+docs/*.pdf
+
+# El escenario opcional se conserva localmente hasta ejecutarlo y registrar su evidencia.
+sql/04_interbloqueo_opcional.sql
+
 # Temporales
 *.tmp
 *.log

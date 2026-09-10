@@ -1,0 +1,25 @@
+Ejecución real: 10/09/2026
+Motor: PostgreSQL 18.6
+Base: foodstore_tp2
+Usuario: postgres
+
+Lectura no repetible - READ COMMITTED
+Sesión A: lectura_1 precio=1050.00; lectura_2 precio=1150.00; COMMIT.
+Sesión B: UPDATE 1; COMMIT.
+
+Lectura no repetible - REPEATABLE READ
+Sesión A: lectura_1 precio=1050.00; lectura_2 precio=1050.00; COMMIT.
+Sesión B: UPDATE 1; COMMIT.
+
+Lectura fantasma - READ COMMITTED
+Sesión A: conteo_1=2; conteo_2=3; COMMIT.
+Sesión B: INSERT 0 1 (Fugazzeta TP2 RC); COMMIT.
+
+Lectura fantasma - REPEATABLE READ
+Sesión A: conteo_1=3; conteo_2=3; COMMIT.
+Sesión B: INSERT 0 1 (Especial TP2 RR); COMMIT.
+
+Espera por bloqueo - SELECT FOR UPDATE
+Sesión A: obtuvo lock sobre producto id=1; COMMIT después de mantenerlo 3 segundos.
+Sesión B: intentó el lock a las 08:53:23.855485-03 y lo obtuvo a las 08:53:25.887246-03.
+Espera observada: aproximadamente 2.032 segundos.

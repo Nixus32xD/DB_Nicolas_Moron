@@ -1,6 +1,11 @@
 # Evidencias reales
 
-Agregar aquí únicamente evidencia obtenida al ejecutar el TP en PostgreSQL.
+Contiene únicamente evidencia obtenida al ejecutar el TP en PostgreSQL 18.6 el 10/09/2026 sobre la base aislada `foodstore_tp2`.
+
+Archivos disponibles:
+
+- `01_restricciones_postgresql_18.txt`
+- `02_concurrencia_postgresql_18.txt`
 
 Sugerencia de nombres:
 

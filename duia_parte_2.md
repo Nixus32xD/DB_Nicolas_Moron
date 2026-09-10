@@ -4,12 +4,12 @@
 
 | Campo | Contenido |
 |---|---|
-| Herramienta | IA utilizada para explicar los escenarios; PostgreSQL para verificarlos |
+| Herramienta | Codex (ChatGPT) para la explicación; PostgreSQL 18.6 para la verificación. |
 | Prompt utilizado | Ver debajo |
 | Qué generó | Explicaciones sobre MVCC, snapshots y bloqueos |
-| Qué se aceptó | Solamente lo confirmado en el motor |
-| Qué se modificó o descartó | Completar después de comparar explicación y resultado |
-| Verificación realizada | Tres experimentos con dos sesiones concurrentes |
+| Qué se aceptó | La explicación de snapshots por sentencia en `READ COMMITTED`, el snapshot estable de `REPEATABLE READ` y el bloqueo de `FOR UPDATE`. |
+| Qué se modificó o descartó | No se registraron valores de referencia como si fueran evidencia. Se conservaron solo las salidas obtenidas en las dos conexiones. |
+| Verificación realizada | Tres experimentos con dos conexiones `psql` contra `foodstore_tp2` el 10/09/2026. |
 
 ## Prompt propuesto
 
@@ -23,18 +23,8 @@
 
 ## Registro de verificación
 
-```text
-EVIDENCIA REAL A COMPLETAR
-
-Escenario 1:
-¿La IA acertó?:
-Qué comprobó PostgreSQL:
-
-Escenario 2:
-¿La IA acertó?:
-Qué comprobó PostgreSQL:
-
-Escenario 3:
-¿La IA acertó?:
-Qué comprobó PostgreSQL:
-```
+| Escenario | ¿La IA acertó? | Comprobación en PostgreSQL |
+|---|---|---|
+| Lectura no repetible | Sí | En `READ COMMITTED`, el precio fue de `1050.00` a `1150.00`; en `REPEATABLE READ` permaneció en `1050.00`. |
+| Lectura fantasma | Sí | En `READ COMMITTED`, el `COUNT` pasó de `2` a `3`; en `REPEATABLE READ` permaneció en `3` aunque otra sesión insertó una fila. |
+| Espera por bloqueo | Sí | La segunda sesión pidió el lock a las `08:53:23.855485-03` y lo obtuvo a las `08:53:25.887246-03`, después del `COMMIT` de la primera. |

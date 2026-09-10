@@ -10,8 +10,8 @@ Ejemplo:
 
 ```bash
 createdb foodstore_tp2
-psql -d foodstore_tp2 -f sql/schema.sql
-psql -d foodstore_tp2 -f sql/datos_iniciales.sql
+psql -d foodstore_tp2 -f schema.sql
+psql -d foodstore_tp2 -f sql/00_datos_iniciales.sql
 ```
 
 Si se parte de una base plantilla local:

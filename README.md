@@ -23,10 +23,10 @@ Scripts:
 
 ```text
 sql/
+├── 00_datos_iniciales.sql
 ├── 01_restricciones_integridad.sql
 ├── 02_pruebas_restricciones.sql
-├── 03_laboratorio_concurrencia.sql
-└── 04_interbloqueo_opcional.sql
+└── 03_laboratorio_concurrencia.sql
 ```
 
 Evidencias:
@@ -39,15 +39,17 @@ evidencias/
 ## Flujo de trabajo
 
 1. Trabajar sobre una copia local de la base.
-2. Verificar la base activa con `SELECT current_database(), current_user;`.
-3. Generar respaldo antes de cambios estructurales.
-4. Revisar cualquier script generado por IA antes de ejecutarlo.
-5. Probar cambios dentro de una transacción.
-6. Ejecutar los escenarios de concurrencia con dos sesiones PostgreSQL.
-7. Registrar únicamente resultados reales.
-8. Revisar `git diff` antes de cada commit.
+2. Crear la estructura con `psql -d foodstore_tp2 -f schema.sql` y cargar los datos de laboratorio con `psql -d foodstore_tp2 -f sql/00_datos_iniciales.sql`.
+3. Verificar la base activa con `SELECT current_database(), current_user;`.
+4. Generar respaldo antes de cambios estructurales.
+5. Revisar cualquier script generado por IA antes de ejecutarlo.
+6. Probar cambios dentro de una transacción.
+7. Ejecutar los escenarios de concurrencia con dos sesiones PostgreSQL.
+8. Registrar únicamente resultados reales.
+9. Revisar `git diff` antes de cada commit.
 
 ## Estado
 
-La estructura y los scripts están preparados.  
-Las secciones marcadas como `EVIDENCIA REAL A COMPLETAR` deben completarse con resultados obtenidos realmente en PostgreSQL antes de la entrega.
+Las restricciones y los tres escenarios obligatorios se ejecutaron realmente en PostgreSQL 18.6 el 10/09/2026. Las salidas resumidas están en `informe_concurrencia.md`, las DUIA y `evidencias/`.
+
+El escenario de interbloqueo permanece opcional y no se declara como ejecutado ni versionado hasta contar con su evidencia real.

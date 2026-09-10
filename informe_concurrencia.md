@@ -4,7 +4,7 @@
 **Motor:** PostgreSQL  
 **Base de trabajo:** `foodstore_tp2`
 
-> Este informe está preparado para completar con la salida real obtenida en las dos sesiones. No presentar como reales resultados que no hayan sido ejecutados.
+> Ejecución real: 10/09/2026, PostgreSQL 18.6, dos conexiones `psql` independientes con el usuario `postgres`.
 
 ---
 
@@ -14,7 +14,7 @@
 
 Archivo utilizado:
 
-`concurrencia/lectura_no_repetible.sql`
+`sql/03_laboratorio_concurrencia.sql`
 
 Se abrió una transacción en la Sesión A con `READ COMMITTED` y se consultó el precio del producto `id = 1`.  
 Mientras la transacción seguía abierta, la Sesión B modificó ese precio y confirmó la operación.
@@ -52,18 +52,16 @@ COMMIT;
 
 ### Qué se observó
 
-**EVIDENCIA REAL A COMPLETAR**
-
 Primera lectura:
 
 ```text
-PEGAR SALIDA REAL
+precio = 1050.00
 ```
 
 Segunda lectura:
 
 ```text
-PEGAR SALIDA REAL
+precio = 1150.00
 ```
 
 ### Explicación de la IA
@@ -78,20 +76,16 @@ Se repite el experimento utilizando:
 SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 ```
 
-**EVIDENCIA REAL A COMPLETAR**
-
 ```text
-PEGAR SALIDA REAL DE LA REPETICIÓN
+Sesión A, primera lectura:  precio = 1050.00
+Sesión B: UPDATE 1; COMMIT
+Sesión A, segunda lectura:  precio = 1050.00
 ```
 
 ### Conclusión
 
-Completar después de verificar en PostgreSQL:
-
 ```text
-¿La explicación se confirmó?:
-Nivel/mecanismo que evitó el fenómeno:
-```
+La explicación se confirmó. `REPEATABLE READ` conservó el snapshot de la transacción A y evitó que la segunda lectura viera el `COMMIT` de B.
 
 ---
 
@@ -101,7 +95,7 @@ Nivel/mecanismo que evitó el fenómeno:
 
 Archivo:
 
-`concurrencia/lectura_fantasma.sql`
+`sql/03_laboratorio_concurrencia.sql`
 
 La Sesión A ejecuta un `COUNT` de productos activos de una categoría. La Sesión B inserta una nueva fila que cumple la misma condición y confirma.
 
@@ -139,11 +133,9 @@ COMMIT;
 
 ### Qué se observó
 
-**EVIDENCIA REAL A COMPLETAR**
-
 ```text
-COUNT inicial:
-COUNT posterior:
+COUNT inicial:   2
+COUNT posterior: 3
 ```
 
 ### Explicación de la IA
@@ -158,18 +150,15 @@ Repetir con:
 SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 ```
 
-**EVIDENCIA REAL A COMPLETAR**
-
 ```text
-PEGAR RESULTADOS
+Sesión A, COUNT inicial:   3
+Sesión B: INSERT 0 1; COMMIT
+Sesión A, COUNT posterior: 3
 ```
 
 ### Conclusión
 
-```text
-¿La explicación se confirmó?:
-Nivel/mecanismo que evitó el fenómeno:
-```
+La explicación se confirmó. `REPEATABLE READ` mantuvo el mismo snapshot aunque B insertó `Especial TP2 RR` y confirmó la operación.
 
 ---
 
@@ -179,7 +168,7 @@ Nivel/mecanismo que evitó el fenómeno:
 
 Archivo:
 
-`concurrencia/espera_por_bloqueo.sql`
+`sql/03_laboratorio_concurrencia.sql`
 
 Dos sesiones intentan bloquear la misma fila con `SELECT ... FOR UPDATE`.
 
@@ -207,12 +196,11 @@ FOR UPDATE;
 
 ### Qué se observó
 
-**EVIDENCIA REAL A COMPLETAR**
-
 ```text
-Hora aproximada de inicio:
-Tiempo que B permaneció esperando:
-Qué ocurrió después del COMMIT/ROLLBACK de A:
+Sesión A obtuvo el lock sobre producto id=1 y mantuvo la transacción abierta.
+Sesión B intentó obtenerlo a las 08:53:23.855485-03.
+Sesión B lo obtuvo a las 08:53:25.887246-03, luego del COMMIT de A.
+Espera observada: aproximadamente 2.032 segundos.
 ```
 
 ### Explicación de la IA
@@ -229,25 +217,16 @@ COMMIT;
 
 La Sesión B debería continuar después de liberarse el bloqueo.
 
-**EVIDENCIA REAL A COMPLETAR**
-
 ```text
-PEGAR RESULTADO REAL
+La consulta `SELECT ... FOR UPDATE` de B devolvió la fila id=1, stock=20 y luego pudo hacer COMMIT.
 ```
 
 ### Conclusión
 
-```text
-¿La explicación se confirmó?:
-Mecanismo involucrado:
-```
+La explicación se confirmó. El mecanismo involucrado fue el bloqueo de fila adquirido por `SELECT ... FOR UPDATE`; el `COMMIT` de A lo liberó.
 
 ---
 
 ## Síntesis
 
-La conclusión definitiva debe completarse después de ejecutar los tres experimentos.
-
-```text
-EVIDENCIA REAL A COMPLETAR
-```
+Los tres escenarios fueron reproducidos en el motor real. `READ COMMITTED` permitió la lectura no repetible y la aparición de una fila fantasma entre sentencias; `REPEATABLE READ` estabilizó el snapshot. `SELECT ... FOR UPDATE` hizo que la segunda sesión esperara la liberación del lock.

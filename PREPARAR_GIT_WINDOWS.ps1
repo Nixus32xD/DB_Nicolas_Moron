@@ -1,0 +1,7 @@
+Write-Host "Guía rápida para preparar DB_Nicolas_Moron"
+Write-Host ""
+Write-Host "1) git init"
+Write-Host "2) git branch -M main"
+Write-Host "3) Seguir los commits indicados en COMMITS_A_HACER.md"
+Write-Host ""
+Write-Host "No se ejecutan commits automáticamente para que puedas revisar git diff antes de cada uno."
