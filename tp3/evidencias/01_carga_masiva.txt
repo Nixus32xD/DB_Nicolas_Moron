@@ -1,0 +1,15 @@
+Ejecución real: 10/09/2026
+Motor: PostgreSQL 18.6
+Base: foodstore_tp3
+Usuario: postgres
+
+Tiempo de carga: 9.059 segundos
+
+Resultado:
+categorias = 2
+clientes = 20002
+productos = 50003
+pedidos = 200002
+detalles = 200001
+
+El script ejecutó INSERT para 20.000 clientes, 50.000 productos, 200.000 pedidos y 200.000 detalles; luego ANALYZE sobre las tablas afectadas.

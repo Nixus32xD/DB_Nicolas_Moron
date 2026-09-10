@@ -1,0 +1,58 @@
+Ejecución real: 10/09/2026 - PostgreSQL 18.6 - foodstore_tp3
+
+CONSULTA 1 - Productos por categoría, precio y orden
+Limit  (cost=2399.10..2401.60 rows=1000 width=34) (actual time=11.687..11.757 rows=1000.00 loops=1)
+  Buffers: shared hit=890
+  ->  Sort  (cost=2399.10..2433.47 rows=13750 width=34) (actual time=11.684..11.712 rows=1000.00 loops=1)
+        Sort Key: precio DESC
+        Sort Method: top-N heapsort  Memory: 172kB
+        Buffers: shared hit=890
+        ->  Bitmap Heap Scan on producto  (cost=342.81..1645.20 rows=13750 width=34) (actual time=0.657..7.009 rows=13758.00 loops=1)
+              Recheck Cond: ((categoria_id = 1) AND activo)
+              Filter: ((precio >= '1000'::numeric) AND (precio <= '3500'::numeric))
+              Rows Removed by Filter: 11244
+              Heap Blocks: exact=863
+              Buffers: shared hit=887
+              ->  Bitmap Index Scan on idx_producto_categoria_activo  (actual time=0.575..0.575 rows=25002.00 loops=1)
+                    Index Cond: ((categoria_id = 1) AND (activo = true))
+                    Index Searches: 1
+                    Buffers: shared hit=24
+Planning:
+  Buffers: shared hit=136
+Planning Time: 2.027 ms
+Execution Time: 11.849 ms
+
+CONSULTA 2 - Pedidos recientes ordenados por fecha
+Limit  (cost=5058.08..5172.05 rows=1000 width=28) (actual time=147.301..162.326 rows=1000.00 loops=1)
+  Buffers: shared hit=1509
+  ->  Gather Merge  (cost=5058.08..6924.69 rows=16378 width=28) (actual time=147.300..162.286 rows=1000.00 loops=1)
+        Workers Planned: 1
+        Workers Launched: 1
+        Buffers: shared hit=1509
+        ->  Sort  (cost=4058.07..4082.15 rows=9634 width=28) (actual time=18.976..19.016 rows=500.00 loops=2)
+              Sort Key: fecha DESC
+              Sort Method: top-N heapsort  Memory: 166kB
+              Buffers: shared hit=1509
+              Worker 0: Sort Method: quicksort  Memory: 25kB
+              ->  Parallel Seq Scan on pedido  (cost=0.00..3529.84 rows=9634 width=28) (actual time=0.007..18.069 rows=8220.50 loops=2)
+                    Filter: (fecha >= (now() - '30 days'::interval))
+                    Rows Removed by Filter: 91780
+                    Buffers: shared hit=1471
+Planning:
+  Buffers: shared hit=61
+Planning Time: 1.531 ms
+Execution Time: 162.418 ms
+
+CONSULTA 3 - Productos por prefijo
+Sort  (cost=1510.71..1511.97 rows=505 width=34) (actual time=5.299..5.301 rows=111.00 loops=1)
+  Sort Key: nombre
+  Sort Method: quicksort  Memory: 31kB
+  Buffers: shared hit=866
+  ->  Seq Scan on producto  (cost=0.00..1488.04 rows=505 width=34) (actual time=0.065..4.959 rows=111.00 loops=1)
+        Filter: ((nombre)::text ~~ 'Producto masivo 499%'::text)
+        Rows Removed by Filter: 49892
+        Buffers: shared hit=863
+Planning:
+  Buffers: shared hit=15
+Planning Time: 35.406 ms
+Execution Time: 5.317 ms

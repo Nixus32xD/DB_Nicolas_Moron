@@ -19,6 +19,17 @@ Repositorio de trabajos prácticos de Base de Datos sobre el proyecto integrador
 - `informe_concurrencia.md`
 - `ejercicio_lectura_critica.md`
 
+### TP3 — Optimización de consultas
+
+- `tp3/sql/01_carga_masiva.sql`
+- `tp3/sql/02_consultas_base.sql`
+- `tp3/sql/03_indices_optimizacion.sql`
+- `tp3/sql/04_consultas_equivalentes.sql`
+- `tp3/informe_optimizacion.md`
+- `tp3/lectura_critica_planes.md`
+- `tp3/consultas_equivalentes.md`
+- `tp3/duia.md`
+
 Scripts:
 
 ```text

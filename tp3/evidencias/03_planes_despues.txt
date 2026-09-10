@@ -1,0 +1,40 @@
+Ejecución real: 10/09/2026 - PostgreSQL 18.6 - foodstore_tp3
+
+CONSULTA 1 - Productos por categoría, precio y orden
+Limit  (cost=0.41..258.12 rows=1000 width=34) (actual time=0.096..0.583 rows=1000.00 loops=1)
+  Buffers: shared hit=1003 read=7
+  ->  Index Scan using idx_tp3_producto_categoria_precio_activo on producto  (cost=0.41..3531.98 rows=13704 width=34) (actual time=0.094..0.540 rows=1000.00 loops=1)
+        Index Cond: ((categoria_id = 1) AND (precio >= '1000'::numeric) AND (precio <= '3500'::numeric))
+        Index Searches: 1
+        Buffers: shared hit=1003 read=7
+Planning:
+  Buffers: shared hit=190 read=2
+Planning Time: 3.246 ms
+Execution Time: 0.652 ms
+
+CONSULTA 2 - Pedidos recientes ordenados por fecha
+Limit  (cost=0.42..389.25 rows=1000 width=28) (actual time=0.064..1.586 rows=1000.00 loops=1)
+  Buffers: shared hit=999 read=5
+  ->  Index Scan using idx_tp3_pedido_fecha_desc on pedido  (cost=0.42..6349.93 rows=16330 width=28) (actual time=0.064..1.537 rows=1000.00 loops=1)
+        Index Cond: (fecha >= (now() - '30 days'::interval))
+        Index Searches: 1
+        Buffers: shared hit=999 read=5
+Planning:
+  Buffers: shared hit=83 read=1
+Planning Time: 1.929 ms
+Execution Time: 1.638 ms
+
+CONSULTA 3 - Productos por prefijo
+Sort  (cost=8.50..8.51 rows=5 width=34) (actual time=0.178..0.182 rows=111.00 loops=1)
+  Sort Key: nombre
+  Sort Method: quicksort  Memory: 31kB
+  Buffers: shared hit=26 read=3
+  ->  Index Scan using idx_tp3_producto_nombre_pattern on producto  (cost=0.41..8.44 rows=5 width=34) (actual time=0.064..0.102 rows=111.00 loops=1)
+        Index Cond: (((nombre)::text ~>=~ 'Producto masivo 499'::text) AND ((nombre)::text ~<~ 'Producto masivo 49:'::text))
+        Filter: ((nombre)::text ~~ 'Producto masivo 499%'::text)
+        Index Searches: 1
+        Buffers: shared hit=23 read=3
+Planning:
+  Buffers: shared hit=55
+Planning Time: 0.222 ms
+Execution Time: 0.199 ms
