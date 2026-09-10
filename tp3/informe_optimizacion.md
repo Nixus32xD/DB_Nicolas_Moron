@@ -1,8 +1,8 @@
 # TP3 - Informe de optimización de consultas
 
-**Alumno:** Nicolás Moron  
-**Motor:** PostgreSQL 18.6  
-**Base aislada:** `foodstore_tp3`  
+**Alumno:** Nicolás Moron
+**Motor:** PostgreSQL 18.6
+**Base aislada:** `foodstore_tp3`
 **Fecha de ejecución:** 10/09/2026
 
 ## Preparación
