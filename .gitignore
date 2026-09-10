@@ -1,0 +1,15 @@
+# PostgreSQL / backups locales
+*.dump
+*.backup
+
+# Temporales
+*.tmp
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# SO
+.DS_Store
+Thumbs.db
